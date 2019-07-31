@@ -16,7 +16,7 @@ def printR(r):
 
 form_data = {
     'authenticity_token':'',
-    'account_identifier':'SOME EMAIL',
+    'account_identifier':'',
     
 }
 
@@ -24,8 +24,7 @@ form_data = {
 form_data_continue = {
     'authenticity_token': '',
     #'method_hint[1524856827]': 'device', #Can be an opcion with device and/or email
-    'method_hint[132848851]': 'email',
-    'method': '132848851', #id from the method choseen
+    'method': '', #id from the method choseen
 }
 
 form_data_end = {
@@ -40,20 +39,27 @@ headers = {
 }
 
 print(':: Twitter Test :::')
+form_data['account_identifier'] = raw_input('SOME EMAIL: ')
 
 with requests.Session() as s:
     
     r = s.get(RESTART_URL)
     
-    printR(r)
+    printR(r) #https://twitter.com/account/begin_password_reset
     soup = bs(r.content,'html5lib')
     form_data['authenticity_token'] = soup.find('input',attrs={'name':'authenticity_token'})['value']
     
     r = s.post(RESTART_URL,data=form_data,headers=headers)
-    printR(r)
+    printR(r) #https://twitter.com/account/send_password_reset
+    
+    soup = bs(r.content,'html5lib')
+    
     
     form_data_continue['authenticity_token'] = form_data['authenticity_token']
-
+    method = soup.find('input',attrs={'value':'email'})['name']
+    form_data_continue[method] = 'email'
+    value = soup.find('input',attrs={'name':'method'})['value']
+    form_data_continue['method'] = value
     r = s.post(CONFIRM_URL,data=form_data_continue,headers=headers)
     printR(r)
     
