@@ -16,15 +16,16 @@ def printR(r):
 
 form_data = {
     'authenticity_token':'',
-    'account_identifier':'tucartel.uruguay@gmail.com',
+    'account_identifier':'SOME EMAIL',
     
 }
 
+#Here Twitter use some id in the method_hint related with the account, but it works for others accounts
 form_data_continue = {
     'authenticity_token': '',
-    #'method_hint[1524856827]': 'device',
+    #'method_hint[1524856827]': 'device', #Can be an opcion with device and/or email
     'method_hint[132848851]': 'email',
-    'method': '132848851', 
+    'method': '132848851', #id from the method choseen
 }
 
 form_data_end = {
