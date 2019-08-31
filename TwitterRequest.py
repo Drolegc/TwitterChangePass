@@ -57,9 +57,17 @@ with requests.Session() as s:
     
     form_data_continue['authenticity_token'] = form_data['authenticity_token']
     method = soup.find('input',attrs={'value':'email'})['name']
+    try:
+        method_device = soup.find('input',attrs={'value':'device'})['name']
+        form_data_continue[method_device] = 'device'
+        #print("There is a device with this account")
+    except:
+        #print("Ther is not a device with this accout")
+
     form_data_continue[method] = 'email'
     value = soup.find('input',attrs={'name':'method'})['value']
     form_data_continue['method'] = value
+    #print(form_data_continue)
     r = s.post(CONFIRM_URL,data=form_data_continue,headers=headers)
     printR(r)
     
