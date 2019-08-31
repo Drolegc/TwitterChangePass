@@ -63,6 +63,7 @@ with requests.Session() as s:
         #print("There is a device with this account")
     except:
         #print("Ther is not a device with this accout")
+        pass
 
     form_data_continue[method] = 'email'
     value = soup.find('input',attrs={'name':'method'})['value']
